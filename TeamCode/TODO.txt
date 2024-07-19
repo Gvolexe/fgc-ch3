@@ -1,0 +1,12 @@
+TODO
+Test MecanumChassis (next prop)
+    Continue development chassis
+        Acceleration (Markos)
+        Roadrunner
+
+Clean controller
+Merge ta panta
+Documention gia to controller
+Vision portal subclass (in utilities)
+Computer vision model training
+Finish migration to a single complete configuration class
