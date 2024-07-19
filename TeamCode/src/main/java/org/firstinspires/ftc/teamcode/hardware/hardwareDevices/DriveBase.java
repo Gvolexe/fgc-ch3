@@ -6,16 +6,21 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-public class Base {
+public class DriveBase {
     DcMotor left = hardwareMap.get(DcMotor.class,"left");
     DcMotor right = hardwareMap.get(DcMotor.class, "right");
 
     public void init(){
         right.setDirection(DcMotorSimple.Direction.REVERSE);
+
         left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     public void setPower(double lp , double rp){
@@ -23,8 +28,7 @@ public class Base {
         right.setPower(rp);
     }
     public void setPower(double p){
-        left.setPower(p);
-        right.setPower(p);
+        setPower(p,p);
     }
 
     public int getDataL(){
@@ -33,6 +37,7 @@ public class Base {
     public int getDataR(){
         return right.getCurrentPosition();
     }
+
     public void drive (double drive , double turn , double power){
         double denominator = Math.max(Math.abs(drive) + Math.abs(turn), 1);
         double leftPower = (drive + turn) * power;
@@ -48,7 +53,7 @@ public class Base {
             leftPower  = rightPower = 0;
         }
 
-        left.setPower(leftPower);
-        right.setPower(rightPower);
+
+        setPower(leftPower,rightPower);
     }
 }

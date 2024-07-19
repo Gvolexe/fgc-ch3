@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.utilities;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.BHI260IMU;
+import com.qualcomm.hardware.bosch.BHI260IMU;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -9,14 +11,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import static org.firstinspires.ftc.teamcode.utilities.Utilities.hardwareMap;
 
 public class  IMU {
-    private final BNO055IMU imu;
+    private final BHI260IMU imu;
     private Double previousAngle;
     private double deltaAngle;
 
     public IMU(String deviceName) {
 
-        imu = hardwareMap.get(BNO055IMU.class, deviceName);
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        imu = hardwareMap.get(BHI260IMU.class, deviceName);
+        BHI260IMU.Parameters parameters = new BHI260IMU.Parameters(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP , RevHubOrientationOnRobot.UsbFacingDirection.RIGHT));
         imu.initialize(parameters);
 
         previousAngle = null;
@@ -28,7 +30,7 @@ public class  IMU {
      */
     public double getAngle() {
         // Get the current angle
-        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        Orientation angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         double currentAngle = angles.firstAngle;
 
         // Update how many times we have wrapped
@@ -60,6 +62,6 @@ public class  IMU {
 
     public double getRawAngle() {
 
-        return imu.getAngularOrientation().firstAngle;
+        return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
     }
 }

@@ -4,10 +4,10 @@ import androidx.annotation.NonNull;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 
-import org.firstinspires.ftc.teamcode.hardware.hardwareDevices.Base;
-import org.firstinspires.ftc.teamcode.hardware.hardwareDevices.Door;
-import org.firstinspires.ftc.teamcode.hardware.hardwareDevices.Grabber;
-import org.firstinspires.ftc.teamcode.hardware.hardwareDevices.HolonicChasis;
+import org.firstinspires.ftc.teamcode.hardware.hardwareDevices.BallBox;
+import org.firstinspires.ftc.teamcode.hardware.hardwareDevices.BallPush;
+import org.firstinspires.ftc.teamcode.hardware.hardwareDevices.DriveBase;
+import org.firstinspires.ftc.teamcode.hardware.hardwareDevices.Lift;
 import org.firstinspires.ftc.teamcode.hardware.sensors.Battery;
 import org.firstinspires.ftc.teamcode.hardware.sensors.Gyro;
 import org.firstinspires.ftc.teamcode.utilities.RingBuffer;
@@ -16,12 +16,15 @@ public class HardwareDevices {
 
     public static Gyro gyro;
 //    public static MecanumChassis robot;
-    public static Base robot;
-    public static Door door;
-    public static Grabber grabber;
+    //public static Base robot;
+    //public static Door door;
+    //public static Grabber grabber;
 
-
+    public static Lift lift;
+    public static DriveBase driveBase;
     public static Battery battery;
+    public static BallBox ballBox;
+    public static BallPush ballPush;
 
     private static long currentTimeMillis;
     private static Pose2d currentPose;
@@ -36,21 +39,31 @@ public class HardwareDevices {
     static RingBuffer<Long> timeRing = new RingBuffer<>(3, System.currentTimeMillis());
 
     public static void init() {
-        robot = new Base();
-        door = new Door();
-        grabber = new Grabber();
+        //robot = new Base();
+        //door = new Door();
+        //grabber = new Grabber();
 
 
         battery = new Battery();
         gyro = new Gyro();
 
+        lift = new Lift();
+        ballBox = new BallBox();
+
+        driveBase = new DriveBase();
+        ballPush = new BallPush();
+
 
 
         gyro.init();
         battery.init();
-        door.init();
-        grabber.init();
-        robot.init();
+        lift.init();
+        driveBase.init();
+        ballBox.init();
+        ballPush.init();
+        //door.init();
+        //grabber.init();
+        //robot.init();
 
     }
 
@@ -61,6 +74,7 @@ public class HardwareDevices {
             gyro.update();
 //            robot.updatePoseEstimate();
             battery.update();
+//            lift.updatePosition();
 
 
 //            currentPose = robot.getPoseEstimate();
